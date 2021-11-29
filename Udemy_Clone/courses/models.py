@@ -38,14 +38,14 @@ class Course(models.Model):
 
     def get_total_lectures(self):
         lectures = 0
-        for section in self.course_section:
+        for section in self.course_section.all():
             lectures += len(section.episodes.all())
 
         return lectures
 
     def get_total_course_lenght(self):
         length = Decimal(0.0)
-        for section in self.course_section:
+        for section in self.course_section.all():
             for episode in section.episodes.all():
                 length += episode.length
         return get_timer(length, type='short')
@@ -86,7 +86,7 @@ class Episode(models.Model):
         
     def save(self, *args, **kwargs):
         self.length = self.get_video_length()
-        return super.save(*args, **kwargs)
+        return super().save(*args, **kwargs)
     
     
 class Comment(models.Model):
