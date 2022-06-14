@@ -9,6 +9,7 @@ from .models import PaymentIntent, Payment
 from rest_framework import status
 from rest_framework.response import Response
 import stripe
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -19,6 +20,8 @@ stripe.api_key = stripe_api_key
 
 
 class PaymentHandler(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request):
         if request.body:
             body = json.loads(request.body)
